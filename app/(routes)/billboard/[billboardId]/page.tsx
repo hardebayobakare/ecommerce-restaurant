@@ -8,6 +8,7 @@ import NoResults from "@/components/ui/no-result";
 import getCategories from "@/actions/get-categories";
 import getBillboard from "@/actions/get-billboard";
 import ProductCard from "@/components/ui/product-card";
+import MobileFilters from "./components/mobile-filters";
 
 export const revalidate = 0;
 
@@ -41,8 +42,9 @@ const CategoryPage: React.FC<BillboardProps> = async ({
             <Container>
                 <Billboard data={billboard}/>
                 <div className="px-4 sm:px-6 lg:px-8 pb-24">
-                    <div className="lg:grid lg:grid-col-5 lg:gap-x-8">
+                    <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
                         {/*Add mobile filters*/}
+                        <MobileFilters sizes={sizes} categories={categories}/>
                         <div className="hidden lg:block">
                             <Filter valueKey="sizeId" name="Sizes" data={sizes}/>
                             <Filter valueKey="categoryId" name="Category" data={categories}/>
