@@ -1,4 +1,4 @@
-import getBillboard from "@/actions/get-billboards";
+import getBillboard from "@/actions/get-billboard";
 import Container from "@/components/ui/container";
 import Billboard from "@/components/billboard";
 import getProducts from "@/actions/get-products";
