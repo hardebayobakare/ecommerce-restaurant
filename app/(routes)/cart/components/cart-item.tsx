@@ -19,7 +19,7 @@ const CartItem: React.FC<CartItemProps> = ({
     data
 }) => {
     const cart = useCart();
-
+    
     const onRemove = () => {
         cart.removeItem(data.id);
     }
@@ -36,12 +36,15 @@ const CartItem: React.FC<CartItemProps> = ({
                     <div className="flex justify-between">
                         <p className="ext-lg font-semibold text-black">{data.name}</p>
                     </div>
-                    {data.size.value !== "N/A" && (
+                    {data.sizePrices[0].size.value !== "N/A" && (
                         <div className="mt-1 flex text-sm">
-                            <p className="text-gray-500 ml-4 border-l border-gray-200 pl-4">{data.size.name}</p>
+                            <p className="text-gray-500 ml-4 border-l border-gray-200 pl-4">{data.sizePrices[0].size.name}</p>
                         </div>
                     )}
-                    <Currency value={data.price}/>
+                     <div className="flex items-center">
+                        <Currency value={data.sizePrices[0].price} />
+                        {data.sizePrices[0].quantity && <span className="text-gray-500 ml-2">x{data.sizePrices[0].quantity}</span>}
+                    </div>
                 </div>
             </div>
         </li>

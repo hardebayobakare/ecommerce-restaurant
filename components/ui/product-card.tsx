@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import { Product, SizePrice } from "@/types";
+import { Product, Size, SizePrice } from "@/types";
 import IconButton from "@/components/ui/icon-button";
 import { Expand, ShoppingCart } from "lucide-react";
 import Currency from "@/components/ui/currency";
@@ -21,6 +21,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const cart = useCart();
     const previewModal = usePreviewModel();
     const router = useRouter();
+
+    const createSizePrice = (size: Size, price: string, quantity: number): SizePrice => {
+        const sizePrice: SizePrice = {
+            id: '', 
+            price: price,
+            size: size,
+            quantity: quantity
+        };
+        return sizePrice;
+    };
     
     const handleClick = () => {
         router.push(`/product/${data?.id}`);
@@ -33,7 +43,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
     const onAddToCart: MouseEventHandler<HTMLButtonElement> = (event) => {
         event.stopPropagation();
-        cart.addItem(data);
+        const cartData = data;
+        cartData.sizePrices = [];
+        const sizePrice = createSizePrice(lowestPriceVariant.size, lowestPriceVariant.price, 1);
+        cartData.sizePrices = [sizePrice];
+        cart.addItem(cartData);
     }
 
     // Sort the sizePrices based on price and get the first item (lowest price variant)
