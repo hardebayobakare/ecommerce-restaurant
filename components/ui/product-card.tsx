@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import { Product } from "@/types";
+import { Product, SizePrice } from "@/types";
 import IconButton from "@/components/ui/icon-button";
 import { Expand, ShoppingCart } from "lucide-react";
 import Currency from "@/components/ui/currency";
@@ -36,6 +36,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
         cart.addItem(data);
     }
 
+    // Sort the sizePrices based on price and get the first item (lowest price variant)
+    const lowestPriceVariant = data.sizePrices.sort((a: SizePrice, b: SizePrice) => parseFloat(a.price) - parseFloat(b.price))[0];
+
 
     return (  
         <div onClick={handleClick} className="bg-white group cursor-pointer rounded-xl border p-3 spac-y-4">
@@ -64,9 +67,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 </p>
             </div>
             {/* Price */}
-            <div className="flex items-center justify-between">
-                <Currency value={data?.price}/>
-            </div>
+            {lowestPriceVariant && (
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                        <Currency value={lowestPriceVariant.price}/>
+                        {/* <span className="mx-2">x</span>
+                        <span>{lowestPriceVariant.quantity}</span> */}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

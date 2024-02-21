@@ -15,10 +15,15 @@ export interface Product {
     id: string;
     category: Category;
     name: String;
-    price: string;
     isFeatured: boolean;
-    size: Size;
     images: Image[];
+    sizePrices: SizePrice[];
+}
+
+export interface SizePrice {
+    id: string;
+    price: string;
+    size: Size;
 }
 
 export interface Size {
@@ -30,4 +35,9 @@ export interface Size {
 export interface Image {
     id: string;
     url: string;
+}
+
+export interface Restaurant {
+    id: string;
+    name: string;
 }

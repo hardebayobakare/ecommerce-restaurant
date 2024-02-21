@@ -3,17 +3,21 @@ import Link from "next/link";
 import MainNav from "@/components/main-nav";
 import NavbarActions from "@/components/navbar-actions";
 import getBillboards from "@/actions/get-billboards";
+import getRestaurant from "@/actions/get-restaurant";
 
 export const revalidate = 0;
 
+
+
 const Navbar = async () => {
-    const billboards = await getBillboards();
+    const restaurant = await getRestaurant();
+    const billboards = await getBillboards({});
     return (  
         <div className="border-b">
             <Container>
                 <div className="relaive px-4 sm:px-5 lg:px-8 flex h-16 items-center">
                     <Link href="/" className="ml-4 flex lg:ml-0 gap-x-2">
-                        <p className="font-bold text-xl">SIMPLYMARIAM RESTAURANT</p>
+                        <p className="font-bold text-xl">{ restaurant.name }</p>
                     </Link>
                     <MainNav data={billboards} />
                     <NavbarActions />

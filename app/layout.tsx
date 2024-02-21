@@ -7,6 +7,7 @@ import ModalProvider from '@/provider/modal-provider';
 import ToastProvider from '@/provider/toast-provider';
 
 import './globals.css'
+import getRestaurant from '@/actions/get-restaurant';
 
 const font = Urbanist({ subsets: ['latin'] })
 
