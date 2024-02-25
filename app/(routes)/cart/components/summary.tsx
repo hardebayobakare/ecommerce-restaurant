@@ -33,7 +33,8 @@ const Summary = () => {
     }, 0);
 
     const onCheckout = async () => {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {productIds: items.map((item) => item.id), redirectUrl: origin});
+        console.log(items);
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {items: JSON.stringify(items), redirectUrl: origin});
 
         window.location = response.data.url;
     }

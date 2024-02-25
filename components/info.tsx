@@ -32,10 +32,18 @@ const Info: React.FC<InfoProps> = ({
         }
     }, [data.sizePrices]);
 
+    function generateUUID(): string {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            const r = Math.random() * 16 | 0;
+            const v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+    
 
     const createSizePrice = (size: Size, price: string, quantity: number): SizePrice => {
         const sizePrice: SizePrice = {
-            id: '', 
+            id: generateUUID(), 
             price: price,
             size: size,
             quantity: quantity
@@ -44,7 +52,7 @@ const Info: React.FC<InfoProps> = ({
     };
     
     const onAddToCart = () => {
-        const cartData = data;
+        const cartData = {...data};
         cartData.sizePrices = [];
         
 
@@ -53,7 +61,10 @@ const Info: React.FC<InfoProps> = ({
             cartData.sizePrices = [sizePrice];
             console.log(cartData);
             cart.addItem(cartData);
+            console.log(cartData);
         }
+
+        
         
     };
 
@@ -85,17 +96,30 @@ const Info: React.FC<InfoProps> = ({
             <hr className="my-4"/>
             {data.sizePrices.length >= 1 && data.sizePrices[0].size?.name !== 'Not Applicable' && (
                 <div className="flex flex-col gap-y-6">
-                    <div className="flex item-center gap-x-4">
-                        <label htmlFor="size" className="font-semibol text-black">Size:</label>
-                        <select id="size" name="size" value={selectedSize?.id} onChange={handleSizeChange}>
+                    <div className="flex items-center gap-x-4 mb-4"> {/* Add margin bottom here */}
+                        <label htmlFor="size" className="font-semibold text-black">Size:</label>
+                        <select 
+                            id="size" 
+                            name="size" 
+                            value={selectedSize?.id} 
+                            onChange={handleSizeChange} 
+                            className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            style={{ padding: '8px' }} // Inline style for padding
+                        >
                             {data.sizePrices.map(sizePrice => (
-                                <option key={sizePrice.size.id} value={sizePrice.size.id}>{sizePrice.size.name}</option>
+                                <option 
+                                    key={sizePrice.size.id} 
+                                    value={sizePrice.size.id} 
+                                    style={{ padding: '8px' }} // Inline style for padding
+                                >
+                                    {sizePrice.size.name}
+                                </option>
                             ))}
                         </select>
                     </div>
                 </div>
             )}
-            <div className="flex items-center gap-x-4">
+            <div className="flex items-center gap-x-4"> {/* Add margin top here */}
                 <label htmlFor="quantity" className="font-semibold text-black">Quantity:</label>
                 <input 
                     type="number" 
@@ -107,6 +131,7 @@ const Info: React.FC<InfoProps> = ({
                     className="border rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
             </div>
+
             <div className="mt-10 flex items-center gap-x-3">
                 <Button onClick={onAddToCart} className="flex items-center gap-x-2">
                     Add to cart

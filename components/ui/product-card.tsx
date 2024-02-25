@@ -22,9 +22,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const previewModal = usePreviewModel();
     const router = useRouter();
 
+    function generateUUID(): string {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            const r = Math.random() * 16 | 0;
+            const v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
     const createSizePrice = (size: Size, price: string, quantity: number): SizePrice => {
         const sizePrice: SizePrice = {
-            id: '', 
+            id: generateUUID(), 
             price: price,
             size: size,
             quantity: quantity
@@ -43,10 +51,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
     const onAddToCart: MouseEventHandler<HTMLButtonElement> = (event) => {
         event.stopPropagation();
-        const cartData = data;
+        const cartData = { ...data};
         cartData.sizePrices = [];
         const sizePrice = createSizePrice(lowestPriceVariant.size, lowestPriceVariant.price, 1);
         cartData.sizePrices = [sizePrice];
+        console.log(cartData);
         cart.addItem(cartData);
     }
 

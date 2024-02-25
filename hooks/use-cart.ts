@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 interface CartStore {
     items: Product[];
     addItem: (data: Product) => void;
-    removeItem: (id: string) => void;
+    removeItem: (id: string, size: string) => void;
     removeAll: () => void;
 };
 
@@ -16,20 +16,40 @@ const useCart = create(
         items: [],
         addItem: (data: Product) => {
             const currentItems = get().items;
-            const existingItem = currentItems.find((item) => item.id === data.id);
+            const existingItemIndex = currentItems.findIndex((item) => item.id === data.id && item.sizePrices[0].size === data.sizePrices[0].size);
 
-            if (existingItem) {
-                return toast("Item already in cart.");
+            if (existingItemIndex !== -1) {
+                // If item already exists, increase its quantity by 1
+                const updatedItems = [...currentItems];
+                updatedItems[existingItemIndex].sizePrices[0].quantity += 1;
+                set({ items: updatedItems });
+                toast.success("Quantity increased");
+            } else {
+                // If item doesn't exist, add it to the cart
+                set({items: [...get().items, data]});
+                toast.success("Item added to cart");
             }
 
-            set({items: [...get().items, data]});
-            toast.success("Item added to cart");
+            // set({items: [...get().items, data]});
+            // toast.success("Item added to cart");
         },
 
-        removeItem: (id: string) => {
-            set({items: [...get().items.filter((item) => item.id !== id)]});
-            toast.success("Item removed");
+        removeItem: (id: string, size: string) => {
+            const currentItems = get().items;
+            
+            // Find the index of the item with the specified ID and size
+            const indexToRemove = currentItems.findIndex((item) => item.id === id && item.sizePrices[0].id === size);
+        
+            if (indexToRemove !== -1) {
+                // If the item is found, remove it from the items array
+                const updatedItems = [...currentItems.slice(0, indexToRemove), ...currentItems.slice(indexToRemove + 1)];
+                set({ items: updatedItems });
+                toast.success("Item removed");
+            } else {
+                toast.error("Item not found in cart");
+            }
         },
+        
 
         removeAll: () => set({items: []}),
     }), {

@@ -21,7 +21,7 @@ const CartItem: React.FC<CartItemProps> = ({
     const cart = useCart();
     
     const onRemove = () => {
-        cart.removeItem(data.id);
+        cart.removeItem(data.id, data.sizePrices[0].id);
     }
     return (  
         <li className="flex py-6 border-b">
