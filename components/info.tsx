@@ -46,7 +46,8 @@ const Info: React.FC<InfoProps> = ({
             id: generateUUID(), 
             price: price,
             size: size,
-            quantity: quantity
+            quantity: quantity,
+            sizeId: size.id
         };
         return sizePrice;
     };

@@ -35,7 +35,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
             id: generateUUID(), 
             price: price,
             size: size,
-            quantity: quantity
+            quantity: quantity,
+            sizeId: size.id
         };
         return sizePrice;
     };

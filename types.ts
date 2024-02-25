@@ -25,6 +25,7 @@ export interface SizePrice {
     price: string;
     size: Size;
     quantity: number;
+    sizeId: string;
 }
 
 export interface Size {
